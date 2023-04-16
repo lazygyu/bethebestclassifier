@@ -14,24 +14,24 @@ export class LoadingState extends AbstractState {
 
   private async loadResources(): Promise<void> {
     const imageUrls = [
-      {url: '/images/cells/1_neutrophil.svg', name: 'neut'},
-      {url: '/images/cells/2_lymphocyte.svg', name: 'lymph'},
-      {url: '/images/cells/3_monocyte.svg', name: 'mono'},
-      {url: '/images/cells/4_eosinophil.svg', name: 'eo'},
-      {url: '/images/cells/5_basophil.svg', name: 'baso'},
-      {url: '/images/cells/6_rbc.svg', name: 'rbc'},
-      {url: '/images/milab.png', name: 'milab'},
-      {url: '/images/noul.png', name: 'noul'},
-      {url: '/images/correct_effect.png', name: 'correct_effect'},
+      {url: 'images/cells/1_neutrophil.svg', name: 'neut'},
+      {url: 'images/cells/2_lymphocyte.svg', name: 'lymph'},
+      {url: 'images/cells/3_monocyte.svg', name: 'mono'},
+      {url: 'images/cells/4_eosinophil.svg', name: 'eo'},
+      {url: 'images/cells/5_basophil.svg', name: 'baso'},
+      {url: 'images/cells/6_rbc.svg', name: 'rbc'},
+      {url: 'images/milab.png', name: 'milab'},
+      {url: 'images/noul.png', name: 'noul'},
+      {url: 'images/correct_effect.png', name: 'correct_effect'},
     ];
     const audioUrls = [
-      {url: '/sound/bgm_normal.mp3', name: 'bgm_normal'},
-      {url: '/sound/wrong.mp3', name: 'wrong'},
-      {url: '/sound/gameover.mp3', name: 'gameover'},
-      {url: '/sound/score_increase.mp3', name: 'score'},
-      {url: '/sound/correct.mp3', name: 'correct'},
-      {url: '/sound/whistle.mp3', name: 'whistle'},
-      {url: '/sound/count.mp3', name: 'count'},
+      {url: 'sound/bgm_normal.mp3', name: 'bgm_normal'},
+      {url: 'sound/wrong.mp3', name: 'wrong'},
+      {url: 'sound/gameover.mp3', name: 'gameover'},
+      {url: 'sound/score_increase.mp3', name: 'score'},
+      {url: 'sound/correct.mp3', name: 'correct'},
+      {url: 'sound/whistle.mp3', name: 'whistle'},
+      {url: 'sound/count.mp3', name: 'count'},
     ];
     await Promise.all([ResourceManager.getInstance().loadImage(imageUrls), ResourceManager.getInstance().loadAudio(audioUrls)]);
     Eventbus.getInstance().emit('changeState', 'logo');
