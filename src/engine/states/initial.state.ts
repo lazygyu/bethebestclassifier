@@ -3,23 +3,15 @@ import { AbstractGameObject } from '../abstractGameObject';
 import { BouncingBall } from '../objects/bouncingBall';
 import { InputManager } from '../inputManager';
 import { Eventbus } from '../eventbus';
-import { Milab } from '../objects/milab';
-import { Width } from '../../constants';
 
 export class InitialState extends AbstractState {
   private children: AbstractGameObject[] = [];
-  private milab: Milab;
 
   public constructor() {
     super();
-    this.milab = new Milab();
   }
 
   public enter(): void {
-    this.milab.scale = 3;
-    this.milab.x = Width;
-    this.milab.y = 0;
-    this.milab.correct(10000);
     this.makeCells();
   }
 
@@ -33,7 +25,6 @@ export class InitialState extends AbstractState {
   }
 
   public exit(): void {
-    console.log('Exiting Initial State');
   }
 
   update(delta: number) {
@@ -41,7 +32,6 @@ export class InitialState extends AbstractState {
     if (InputManager.getInstance().isKeyPressed(' ')) {
       Eventbus.getInstance().emit('changeState', 'ready');
     }
-    this.milab.update(delta);
     this.children.forEach(child => child.update(delta));
   }
 
@@ -50,7 +40,6 @@ export class InitialState extends AbstractState {
     ctx.fillStyle = '#ea5504';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    this.milab.draw(ctx);
     this.children.forEach(child => child.draw(ctx));
 
     ctx.fillStyle = 'white';
