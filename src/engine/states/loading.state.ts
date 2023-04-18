@@ -34,7 +34,7 @@ export class LoadingState extends AbstractState {
       {url: 'sound/count.mp3', name: 'count'},
     ];
     await Promise.all([ResourceManager.getInstance().loadImage(imageUrls), ResourceManager.getInstance().loadAudio(audioUrls)]);
-    Eventbus.getInstance().emit('changeState', 'logo');
+    Eventbus.getInstance().emit('changeState', 'initial');
   }
 
   public exit(): void {
