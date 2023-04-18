@@ -21,7 +21,6 @@ export class LoadingState extends AbstractState {
       {url: 'images/cells/5_basophil.svg', name: 'baso'},
       {url: 'images/cells/6_rbc.svg', name: 'rbc'},
       {url: 'images/milab.png', name: 'milab'},
-      {url: 'images/noul.png', name: 'noul'},
       {url: 'images/correct_effect.png', name: 'correct_effect'},
     ];
     const audioUrls = [
