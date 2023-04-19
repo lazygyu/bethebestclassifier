@@ -29,7 +29,7 @@ export class InitialState extends AbstractState {
 
   update(delta: number) {
     super.update(delta);
-    if (InputManager.getInstance().isKeyPressed(' ')) {
+    if (InputManager.getInstance().isKeyPressed(' ') || InputManager.getInstance().isTouched()) {
       Eventbus.getInstance().emit('changeState', 'ready');
     }
     this.children.forEach(child => child.update(delta));
@@ -51,7 +51,8 @@ export class InitialState extends AbstractState {
 
     if (this.elapsed % 800 < 600) {
       ctx.font = '24px bitbit';
-      ctx.fillText('Press SPACE to start!', ctx.canvas.width / 2, ctx.canvas.height / 2 + 50);
+      ctx.fillText('Press SPACE or Touch', ctx.canvas.width / 2, ctx.canvas.height / 2 + 50);
+      ctx.fillText('to START', ctx.canvas.width / 2, ctx.canvas.height / 2 + 75);
     }
     ctx.restore();
   }

@@ -145,7 +145,7 @@ export class GameState extends AbstractState {
       this.pressedFTimer = 0;
     }
 
-    if (input.isKeyPressed('j') || input.isKeyPressed('ArrowRight')) {
+    if (input.isKeyPressed('j') || input.isKeyPressed('ArrowRight') || input.isTouchedRight()) {
       // rbc
       if (this.isRbc(this.cells[0])) {
         this.setCorrect();
@@ -154,7 +154,7 @@ export class GameState extends AbstractState {
       }
       this.pressedJTimer = this.pressedTimerMax;
       this.popCell();
-    } else if (input.isKeyPressed('f') || input.isKeyPressed('ArrowLeft')) {
+    } else if (input.isKeyPressed('f') || input.isKeyPressed('ArrowLeft') || input.isTouchedLeft()) {
       // wbc
       if (this.isWbc(this.cells[0])) {
         this.setCorrect();

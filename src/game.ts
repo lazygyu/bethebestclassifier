@@ -1,7 +1,6 @@
 import { AbstractState } from './engine/states/abstract.state';
-import { LoadingState } from './engine/states/loading.state';
+import { LoadingState, StateName, States } from './engine/states';
 import { Eventbus } from './engine/eventbus';
-import { StateName, States } from './engine/states';
 import { InputManager } from './engine/inputManager';
 import { ScreenResizer } from './screenResizer';
 
@@ -18,9 +17,9 @@ export class Game {
   private canvas: HTMLCanvasElement;
 
   constructor(container: HTMLElement) {
-    ScreenResizer.getInstance().init();
-
     this.canvas = document.createElement('canvas');
+    ScreenResizer.getInstance().init(this.canvas);
+
     this.canvas.width = ScreenResizer.getInstance().width;
     this.canvas.height = ScreenResizer.getInstance().height;
 

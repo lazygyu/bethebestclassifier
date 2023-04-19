@@ -25,11 +25,11 @@ export class GameoverState extends AbstractState {
     this.milab.update(delta);
     if (this.elapsed > 3500) {
       ResourceManager.getInstance().get<HTMLAudioElement>('score').pause();
-      if (InputManager.getInstance().isKeyPressed(' ')) {
+      if (InputManager.getInstance().isKeyPressed(' ') || InputManager.getInstance().isTouched()) {
         Eventbus.getInstance().emit('changeState', 'ready');
       }
     } else if (this.elapsed < 3000 && this.elapsed > 500) {
-      if (InputManager.getInstance().isKeyPressed(' ')) {
+      if (InputManager.getInstance().isKeyPressed(' ') || InputManager.getInstance()) {
         this.elapsed = 3000;
       }
     }
@@ -83,7 +83,7 @@ export class GameoverState extends AbstractState {
     if (this.elapsed > 3000 && (this.elapsed - 3000) % 1000 < 500) {
       ctx.font = '20px bitbit';
       ctx.textAlign = 'center';
-      ctx.fillText('Press SPACE to restart', Width / 2, Height * 0.5 + 160);
+      ctx.fillText('Press SPACE or touch to restart', Width / 2, Height * 0.5 + 160);
     }
     this.milab.draw(ctx);
     ctx.restore();
