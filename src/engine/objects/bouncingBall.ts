@@ -1,6 +1,7 @@
 import { AbstractGameObject } from '../abstractGameObject';
-import { Gravity, Height, Width } from '../../constants';
+import { Gravity } from '../../constants';
 import { ResourceManager } from '../resourceManager';
+import { ScreenResizer } from '../../screenResizer';
 
 export class BouncingBall extends AbstractGameObject {
   private x: number;
@@ -39,17 +40,19 @@ export class BouncingBall extends AbstractGameObject {
     this.dy += this.gravity * delta;
     this.x += this.dx;
     this.y += this.dy;
-    if (this.y + this.radius > Height) {
+    const screenWidth = ScreenResizer.getInstance().width;
+    const screenHeight = ScreenResizer.getInstance().height;
+    if (this.y + this.radius > screenHeight) {
       this.dy = -this.dy * this.friction;
-      this.y = Height - this.radius;
+      this.y = screenHeight - this.radius;
       this.dx *= this.friction;
     } else if (this.y - this.radius < 0) {
       this.dy = -this.dy * this.friction;
       this.y = this.radius;
     }
-    if (this.x + this.radius > Width) {
+    if (this.x + this.radius > screenWidth) {
       this.dx = -this.dx * this.friction;
-      this.x = Width - this.radius;
+      this.x = screenWidth - this.radius;
     } else if (this.x - this.radius < 0) {
       this.dx = -this.dx * this.friction;
       this.x = this.radius;

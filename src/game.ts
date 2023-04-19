@@ -1,9 +1,9 @@
 import { AbstractState } from './engine/states/abstract.state';
-import { Height, Width } from './constants';
 import { LoadingState } from './engine/states/loading.state';
 import { Eventbus } from './engine/eventbus';
 import { StateName, States } from './engine/states';
 import { InputManager } from './engine/inputManager';
+import { ScreenResizer } from './screenResizer';
 
 const UpdateInterval = 5;
 
@@ -18,9 +18,11 @@ export class Game {
   private canvas: HTMLCanvasElement;
 
   constructor(container: HTMLElement) {
+    ScreenResizer.getInstance().init();
+
     this.canvas = document.createElement('canvas');
-    this.canvas.width = Width;
-    this.canvas.height = Height;
+    this.canvas.width = ScreenResizer.getInstance().width;
+    this.canvas.height = ScreenResizer.getInstance().height;
 
     container.append(this.canvas);
 
@@ -54,12 +56,13 @@ export class Game {
       this.updateState();
       this.elapsedSinceLastUpdate -= UpdateInterval;
     }
-    this.canvas.width = Width;
+    this.canvas.width = ScreenResizer.getInstance().width;
+    this.canvas.height = ScreenResizer.getInstance().height;
     const ctx = this.canvas.getContext('2d')!;
     ctx.imageSmoothingEnabled = false;
     // @ts-ignore
     ctx.webkitImageSmoothingEnabled = false;
-    // ctx.translate(0.5, 0.5);
+
     this.state.render(ctx);
     requestAnimationFrame(this.loop.bind(this));
   }

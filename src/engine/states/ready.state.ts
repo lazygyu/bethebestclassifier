@@ -1,6 +1,5 @@
 import { AbstractState } from './abstract.state';
 import { Eventbus } from '../eventbus';
-import { Height, Width } from '../../constants';
 import { ResourceManager } from '../resourceManager';
 
 export class ReadyState extends AbstractState {
@@ -37,7 +36,7 @@ export class ReadyState extends AbstractState {
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(['Ready', 'Get Set', 'GO!!'][count], Width / 2, Height / 2);
+    ctx.fillText(['Ready', 'Get Set', 'GO!!'][count], ctx.canvas.width / 2, ctx.canvas.height / 2);
     ctx.restore();
   }
 }

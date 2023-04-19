@@ -2,7 +2,6 @@ import { AbstractState } from './abstract.state';
 import { ResourceManager } from '../resourceManager';
 import { InputManager } from '../inputManager';
 import { Eventbus } from '../eventbus';
-import { Height, Width } from '../../constants';
 import { interpolate } from '../../util';
 import { ScoreManager } from '../scoreManager';
 import { Milab } from '../objects/milab';
@@ -15,8 +14,6 @@ export class GameoverState extends AbstractState {
   enter(): void {
     ResourceManager.getInstance().get<HTMLAudioElement>('gameover').currentTime = 0;
     ResourceManager.getInstance().get<HTMLAudioElement>('gameover').play();
-    this.milab.x = Math.floor(Width / 2);
-    this.milab.y = Math.floor(Height * 0.25 + 30);
     this.milab.scale = 1;
   }
 
@@ -46,6 +43,12 @@ export class GameoverState extends AbstractState {
 
   render(ctx: CanvasRenderingContext2D): void {
     ctx.save();
+    const Width = ctx.canvas.width;
+    const Height = ctx.canvas.height;
+
+    this.milab.x = Math.floor(Width / 2);
+    this.milab.y = Math.floor(Height * 0.25 + 30);
+
     const [score, maxCombo, correct, incorrect] = interpolate(
       [0, 0, 0, 0],
       [

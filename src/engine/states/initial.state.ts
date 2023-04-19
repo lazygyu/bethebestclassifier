@@ -45,7 +45,9 @@ export class InitialState extends AbstractState {
     ctx.fillStyle = 'white';
     ctx.font = '48px bitbit';
     ctx.textAlign = 'center';
-    ctx.fillText('Be the Best Classifier!', ctx.canvas.width / 2, ctx.canvas.height / 2);
+    ['Be', 'the', 'Best', 'Classifier!'].reverse().forEach((text, i) => {
+      ctx.fillText(text, ctx.canvas.width / 2, ctx.canvas.height / 2 - (i*40));
+    });
 
     if (this.elapsed % 800 < 600) {
       ctx.font = '24px bitbit';

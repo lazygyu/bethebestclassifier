@@ -1,4 +1,4 @@
-export const Width = 640;
+export const Width = 400;
 export const Height = 480;
 export const CellNames = ['neut', 'lymph', 'mono', 'eo', 'baso', 'rbc'] as const;
 export const GAME_SPAN = 30 * 1000;

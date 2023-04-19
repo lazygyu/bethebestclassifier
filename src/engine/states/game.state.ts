@@ -1,6 +1,6 @@
 import { AbstractState } from './abstract.state';
 import { CellName } from '../../types/cell.type';
-import { CellNames, GAME_SPAN, Height, Width } from '../../constants';
+import { CellNames, GAME_SPAN } from '../../constants';
 import { ResourceManager } from '../resourceManager';
 import { InputManager } from '../inputManager';
 import { interpolate, numPad } from '../../util';
@@ -10,6 +10,7 @@ import { Eventbus } from '../eventbus';
 import { ScoreManager } from '../scoreManager';
 import { AbstractGameObject } from '../abstractGameObject';
 import { CorrectEffect } from '../objects/correctEffect';
+import { ScreenResizer } from '../../screenResizer';
 
 const BackgroundColors = {
   normal: [50, 50, 50, 1],
@@ -173,15 +174,15 @@ export class GameState extends AbstractState {
     this.playSFX('correct');
     const cell = this.children[0];
     if (cell) {
-      cell.x = Width / 2;
-      cell.y = Height - 140;
+      cell.x = ScreenResizer.getInstance().width / 2;
+      cell.y = ScreenResizer.getInstance().height - 140;
       if (this.isRbc(cell.type)) {
         cell.impulse(0.3, -0.7);
       } else {
         cell.impulse(-0.3, -0.7);
       }
     }
-    this.effects.push(new CorrectEffect(Width / 2, Height - 140));
+    this.effects.push(new CorrectEffect(ScreenResizer.getInstance().width / 2, ScreenResizer.getInstance().height - 140));
     ScoreManager.getInstance().addScore(this.combo * 5);
     ScoreManager.getInstance().setCombo(this.combo);
     ScoreManager.getInstance().addCorrect();
@@ -203,8 +204,8 @@ export class GameState extends AbstractState {
     const cell = this.children[0];
     if (cell) {
       cell.isWrong = true;
-      cell.x = Width / 2;
-      cell.y = Height - 140;
+      cell.x = ScreenResizer.getInstance().width / 2;
+      cell.y = ScreenResizer.getInstance().height - 140;
       if (this.isRbc(cell.type)) {
         cell.impulse(-0.3, -0.2);
       } else {
@@ -250,9 +251,6 @@ export class GameState extends AbstractState {
     this.pressedFTimer = 0;
     ScoreManager.getInstance().resetScore();
 
-    this.milab.x = Width / 2;
-    this.milab.y = Height - this.milab.height * 2;
-
     for(let i = 0; i < 10; i++) {
       this.addCell();
     }
@@ -283,10 +281,10 @@ export class GameState extends AbstractState {
     ctx.font = '30px bitbit';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(`WBC`, Width * 0.25, Height * 0.75);
-    ctx.fillText(`RBC`, Width * 0.75, Height * 0.75);
-    this.drawKey(ctx, 'F', Width * 0.25, Height * 0.75 + 40, this.pressedFTimer);
-    this.drawKey(ctx, 'J', Width * 0.75, Height * 0.75 + 40, this.pressedJTimer);
+    ctx.fillText(`WBC`, ctx.canvas.width * 0.25, ctx.canvas.height * 0.75);
+    ctx.fillText(`RBC`, ctx.canvas.width * 0.75, ctx.canvas.height * 0.75);
+    this.drawKey(ctx, 'F', ctx.canvas.width * 0.25, ctx.canvas.height * 0.75 + 40, this.pressedFTimer);
+    this.drawKey(ctx, 'J', ctx.canvas.width * 0.75, ctx.canvas.height * 0.75 + 40, this.pressedJTimer);
 
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'left';
@@ -299,9 +297,11 @@ export class GameState extends AbstractState {
     ctx.textAlign = 'right';
     const leftTime = this.ended ? 0 : Math.max(0, (GAME_SPAN - this.elapsed) / 1000);
     const msec = `${Math.floor((leftTime - Math.floor(leftTime)) * 100)}0`.slice(0, 2);
-    ctx.fillText(`${numPad(Math.floor(leftTime), 2)}.${msec}`, Width - 20, 20);
+    ctx.fillText(`${numPad(Math.floor(leftTime), 2)}.${msec}`, ctx.canvas.width - 20, 20);
 
     this.milab.scale = this.currentZoom + 1;
+    this.milab.x = ctx.canvas.width / 2;
+    this.milab.y = ctx.canvas.height - this.milab.height * 2;
     this.milab.draw(ctx);
 
     this.drawAim(ctx);
@@ -315,7 +315,7 @@ export class GameState extends AbstractState {
 
   private renderCells(ctx: CanvasRenderingContext2D): void {
     ctx.save();
-    ctx.translate(Width / 2, Height - 100);
+    ctx.translate(ctx.canvas.width / 2, ctx.canvas.height - 100);
     ctx.scale(this.currentZoom, this.currentZoom);
     ctx.translate(0, this.gap);
     this.children.forEach((child) => {
@@ -333,7 +333,7 @@ export class GameState extends AbstractState {
     if (this.comboTimerActive) {
       const y = Math.min(1, this.comboTimer / (this.comboTimerMax / 2)) * 10;
       ctx.save();
-      ctx.translate(Width / 2, Height / 2 - 120);
+      ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2 - 120);
       ctx.fillStyle = '#fff';
       ctx.font = '30px bitbit';
       ctx.textAlign = 'center';
@@ -365,7 +365,7 @@ export class GameState extends AbstractState {
 
   private drawAim(ctx: CanvasRenderingContext2D): void {
     ctx.save();
-    ctx.translate(Width/2, Height - 140);
+    ctx.translate(ctx.canvas.width/2, ctx.canvas.height - 140);
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
     ctx.beginPath();
